@@ -8,6 +8,7 @@ export default {
       }
     },
     created() {
+      const that = this;
       const callbackParams = this.getQueryParams(window.location.href);
       this.callbackParams = JSON.stringify(callbackParams, null, 2);
 
@@ -19,7 +20,7 @@ export default {
 
       this.callbackParams = JSON.stringify(params, null, 2);
 
-      axios.post("http://127.0.0.1/one-auth/token", {}, {
+      axios.post("/api/one-auth/token", {}, {
         params: params,
         headers: {
           "Authorization": "Basic aGF2ZW4tZ2FtZTpoYXZlbi1nYW1lLXNlY3JldA=="
@@ -29,7 +30,10 @@ export default {
         // console.log(res);
         // 存储AccessToken
         localStorage.setItem("login", JSON.stringify(res));
-        this.$router.push("/")
+        setTimeout(function(){
+          that.$router.push("/steam")
+        },3000)
+
       })
 
 
@@ -49,7 +53,7 @@ export default {
           return acc;
         }, {});
         return params;
-      }
+      },
     }
   };
 </script>
@@ -57,7 +61,7 @@ export default {
 <template>
   <div>获取URL中参数, 组成json传递到后端: </div>
   <pre>{{ callbackParams }}</pre>
-  <div>传递后端后, 兑换accessToken: </div>
+  <div>传递后端后, 兑换accessToken (成功后3秒会跳转到Steam交互页面): </div>
   <pre>{{ result }}</pre>
 </template>
 

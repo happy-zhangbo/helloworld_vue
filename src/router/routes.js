@@ -9,9 +9,15 @@ const routes = [
     },
     {
         path: '/signWith/steam',
-        name: 'steam',
+        name: 'steamLogin',
         title: 'Steam Login',
         component: () => import('@/components/index.vue'), //.vue不能省略
+    },
+    {
+        path: '/steam',
+        name: 'steam',
+        title: 'SteamIn',
+        component: () => import('@/components/steam.vue'), //.vue不能省略
     }
 ]
 export default routes
