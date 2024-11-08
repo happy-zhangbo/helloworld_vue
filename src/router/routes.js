@@ -2,6 +2,12 @@ const IndexComponent = import('@/components/HelloWorld.vue')
 
 const routes = [
     {
+        path: '/:invite',
+        name: 'index-invite',
+        title: '首页',
+        component: () => IndexComponent, //.vue不能省略
+    },
+    {
         path: '/',
         name: 'index',
         title: '首页',

@@ -9,17 +9,18 @@
     Steam分数: {{ scoreObj.score }} <br/>
     等级段位: {{ scoreObj.level }} <br/>
     游戏数量: {{ scoreObj["game_size"] }} <br/>
-    游戏时常: {{ scoreObj["played_time"] }}小时 <br/>
+    游戏时常: {{ scoreObj["played_time"] / 60 }}小时 <br/>
     成就数量: {{ scoreObj["achievements_size"] }}
   </div>
   <br />
   <button @click="score">打分</button>&nbsp;<button @click="confirmScore">确认分数</button> <br />
   <br />
   <div>
-    我的邀请链接: {{ inviteLink }}
+    我的邀请链接: {{ inviteLink }}<br />
     邀请成功记录:
   </div>
-  <button @click="invite">邀请</button>
+  <button @click="invite">邀请分享</button>
+
 </template>
 
 <script>
@@ -56,7 +57,7 @@ export default {
           'Accept': 'text/event-stream',
           'haven-auth': 'bearer ' + accessToken,
           'Content-Type': 'text/event-stream',
-          "Authorization": "Basic aGF2ZW4tZ2FtZTpoYXZlbi1nYW1lLXNlY3JldA=="
+          'Authorization': 'Basic aGF2ZW4tZ2FtZTpoYXZlbi1nYW1lLXNlY3JldA=='
         },
         responseType: 'stream',
         adapter: 'fetch', // <- this option can also be set in axios.create()
@@ -78,10 +79,28 @@ export default {
       })
     },
     confirmScore() {
-
+      const accessToken = this.user.accessToken
+      axios.post('/api/one-point-system/usersteamscore/confirm', {}, {
+        headers: {
+          'haven-auth': 'bearer ' + accessToken,
+          'Authorization': 'Basic aGF2ZW4tZ2FtZTpoYXZlbi1nYW1lLXNlY3JldA=='
+        }
+      }).then(async (response) => {
+        console.log(response)
+      })
     },
     invite() {
+      const accessToken = this.user.accessToken
+      axios.get('/api/one-point-system/usersteaminvite/invite', {
+        headers: {
+          'haven-auth': 'bearer ' + accessToken,
+          'Authorization': 'Basic aGF2ZW4tZ2FtZTpoYXZlbi1nYW1lLXNlY3JldA=='
+        }
+      }).then(async (response) => {
+        console.log(response)
+        this.inviteLink = response.data.data
 
+      })
     }
   }
 }

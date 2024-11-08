@@ -12,6 +12,15 @@ export default {
 
     }
   },
+  created() {
+    const invite = this.$route.params.invite;
+    if(invite) {
+      localStorage.setItem("invite", invite);
+    }else{
+      localStorage.removeItem("invite");
+    }
+    //
+  },
   methods: {
     toSteam: function (){
       this.$router.push("/steam")
